@@ -38,7 +38,7 @@ export class MapsPage implements OnInit {
   previousTracks = [];
 
   directionsService = new google.maps.DirectionsService();
-  directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 
 
   constructor(
