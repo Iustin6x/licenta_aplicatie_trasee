@@ -5,7 +5,7 @@ import { TabBarPage } from './tab-bar.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabBarPage,
     children: [
       {

@@ -15,16 +15,22 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular'
 
 
+import {HttpClientModule} from '@angular/common/http';
+import { authInterceptorProviders } from './helpers/auth.interceptor';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(),IonicStorageModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(),IonicStorageModule.forRoot(), AppRoutingModule,HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,
 
     Geolocation,
-    NativeGeocoder,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+
+    NativeGeocoder,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

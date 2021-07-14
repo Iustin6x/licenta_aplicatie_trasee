@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate>
+    <ion-item lines="full">
+      <ion-label position="floating">Username</ion-label>
+      <ion-input type="text"
+                 class="form-control"
+                 name="username"
+                 [(ngModel)]="form.username"
+                 required
+                 minlength="3"
+                 maxlength="20"
+                 #username="ngModel"></ion-input>
+    </ion-item>
+    <ion-item class="alert-danger" *ngIf="username.errors && f.submitted">
+    <ion-item *ngIf="username.errors.required">
+      <ion-label>
+        Username is required
+      </ion-label>
+    </ion-item>
+      <ion-item *ngIf="username.errors.minlength">
+        <ion-label>
+          Username must be at least 3 characters
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf="username.errors.maxlength">
+        <ion-label>
+          Username must be at most 20 characters
+        </ion-label>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input ype="email"
+                 class="form-control"
+                 name="email"
+                 [(ngModel)]="form.email"
+                 required
+                 email
+                 #email="ngModel"></ion-input>
+    </ion-item>
+    <ion-item  class="alert-danger" *ngIf="email.errors && f.submitted">
+      <ion-item *ngIf="email.errors.required">
+        <ion-label>
+          Email is required
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf="email.errors.email">
+        <ion-label>
+          Email must be a valid email address
+        </ion-label>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password"
+                  class="form-control"
+                  name="password"
+                  [(ngModel)]="form.password"
+                  required
+                  minlength="6"
+                  #password="ngModel"></ion-input>
+    </ion-item>
+    <ion-item class="alert-danger" *ngIf="password.errors && f.submitted">
+      <ion-item *ngIf="password.errors.required">
+        <ion-label>
+          Password is required
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf="password.errors.minlength">
+        <ion-label>
+          Password must be at least 6 characters
+        </ion-label>
+      </ion-item>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+        <a [routerLink]="['/login']" class="small-text">Have a account Sing in?</a>
+      </ion-col>
+    </ion-row>
+    <ion-item class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      <ion-label>
+        Signup failed!<br />{{ errorMessage }}
+      </ion-label>
+    </ion-item>
+  </form>
+  <ion-item class="alert alert-success" *ngIf="isSuccessful">
+    <ion-label>
+      Your registration is successful!
+    </ion-label>
+  </ion-item>
+</ion-content>
