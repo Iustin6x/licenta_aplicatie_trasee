@@ -8,6 +8,11 @@ import {TokenStorageService} from "../../services/token-storage.service";
 })
 export class ProfilePage implements OnInit {
 
+	userPosts;
+	sub;
+	posts;
+	username: string
+	profilePic: string
   currentUser: any;
 
   constructor(private token: TokenStorageService) { }
