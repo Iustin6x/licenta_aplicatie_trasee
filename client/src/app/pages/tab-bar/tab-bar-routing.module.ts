@@ -18,9 +18,20 @@ const routes: Routes = [
           }
         ]
       },
+
       {
         path: 'profile',
         children: [
+          {
+            path: ':username',
+            loadChildren: () =>
+            import('../profile/profile.module').then(m => m.ProfilePageModule)
+          },
+          {
+            path: 'edit/:username',
+            loadChildren: () =>
+              import('../profile-edit/profile-edit.module').then(m => m.ProfileEditPageModule)
+          },
           {
             path: '',
             loadChildren: () =>

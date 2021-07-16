@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RouteDataService } from './route-data.service';
+import { UserinfoService } from './userinfo.service';
 
-describe('RouteDataService', () => {
-  let service: RouteDataService;
+describe('UserinfoService', () => {
+  let service: UserinfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RouteDataService);
+    service = TestBed.inject(UserinfoService);
   });
 
   it('should be created', () => {

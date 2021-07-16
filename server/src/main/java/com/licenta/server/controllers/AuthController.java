@@ -10,11 +10,13 @@ import javax.validation.Valid;
 import com.licenta.server.models.ERole;
 import com.licenta.server.models.Role;
 import com.licenta.server.models.User;
+import com.licenta.server.models.UserInfo;
 import com.licenta.server.payload.request.LoginRequest;
 import com.licenta.server.payload.request.SignupRequest;
 import com.licenta.server.payload.response.JwtResponse;
 import com.licenta.server.payload.response.MessageResponse;
 import com.licenta.server.repositories.RoleRepository;
+import com.licenta.server.repositories.UserInfoRepository;
 import com.licenta.server.repositories.UserRepository;
 import com.licenta.server.security.jwt.JwtUtils;
 import com.licenta.server.services.UserDetailsImpl;
@@ -39,6 +41,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
+
+	@Autowired
+	UserInfoRepository userinfoRepository;
 
 	@Autowired
 	UserRepository userRepository;
@@ -125,6 +130,8 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		userinfoRepository.save(new UserInfo(user.getId(),user.getUsername(),"last name","",6,user));
+
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

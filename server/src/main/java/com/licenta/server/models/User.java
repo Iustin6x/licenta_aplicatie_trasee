@@ -32,6 +32,11 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private UserInfo info;
+
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
@@ -45,6 +50,14 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+	public UserInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(UserInfo info) {
+		this.info = info;
 	}
 
 	public Long getId() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-tab-bar',
@@ -8,12 +9,15 @@ import { UserService } from '../../services/user.service';
 })
 export class TabBarPage implements OnInit {
 
-  content?: string;
 
-  constructor(private userService: UserService) { }
+  currentUser: any;
+
+  constructor(private userService: UserService,
+    private token: TokenStorageService) { }
 
 
   ngOnInit(): void {
+    /*
     this.userService.getPublicContent().subscribe(
       data => {
         this.content = data;
@@ -21,7 +25,8 @@ export class TabBarPage implements OnInit {
       err => {
         this.content = JSON.parse(err.error).message;
       }
-    );
+    );*/
+    this.currentUser = this.token.getUser();
   }
 
 }

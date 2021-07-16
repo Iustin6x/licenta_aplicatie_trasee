@@ -46,6 +46,7 @@ export class LoginPage implements OnInit {
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.roles = this.tokenStorage.getUser().roles;
+          
 
           this.redirectTabNav();
           //this.reloadPage();

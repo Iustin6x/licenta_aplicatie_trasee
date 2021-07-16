@@ -5,17 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bca5cbe8-29bb-4e44-a08c-145d0cc14689" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/ImageModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/UserDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/repositories/ImageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/UserInfoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/UserInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/payload/response/UserInfoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/repositories/UserInfoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/app/services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/services/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/43e07e1b-b290-4242-b948-00c41430e2c7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/43e07e1b-b290-4242-b948-00c41430e2c7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/TestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/TestController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/licenta/server/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/licenta/server/models/User.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +35,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -83,6 +92,9 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.licenta.server.repositories" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\iusti\Desktop\licenta\server\src\main\java\com\licenta\server\controllers" />
       <recent name="C:\Users\iusti\Desktop\licenta\server\src\main\java\com\licenta\server\security\jwt" />
@@ -148,6 +160,7 @@
       <workItem from="1622104277831" duration="9661000" />
       <workItem from="1625589071876" duration="114000" />
       <workItem from="1626290207829" duration="3660000" />
+      <workItem from="1626428638140" duration="6290000" />
     </task>
     <task id="LOCAL-00001" summary="Models added">
       <created>1622045593888</created>
