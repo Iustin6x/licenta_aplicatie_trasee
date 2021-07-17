@@ -3,14 +3,40 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-const API_URL = 'http://localhost:8080/api/user/';
-
+const API_URL = 'http://localhost:8080/api/';
 @Injectable({
   providedIn: 'root'
 })
-export class UserinfoService {
+export class RouteService {
+
 
   constructor(private http: HttpClient) { }
+
+  getList(): Observable<any> {
+    return this.http
+      .get<any>(API_URL+'routes')
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+
+  getListDone(): Observable<any> {
+    return this.http
+      .get<any>(API_URL+'routes/done')
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+  getListPlanned(): Observable<any> {
+    return this.http
+      .get<any>(API_URL+'routes/planned')
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
 
   get(id: any): Observable<any> {
     return this.http
@@ -21,13 +47,13 @@ export class UserinfoService {
     )
   }
 
-  create(data: any): Observable<any> {
-    return this.http.post(API_URL , data);
+  createItem(data: any): Observable<any> {
+    return this.http.post(API_URL + 'route', data);
   }
 
   update(id: any, data: any): Observable<any> {
-    
-    return this.http.put(API_URL + id, data);
+
+    return this.http.put(API_URL + 'route' + id, data);
   }
 
 // Handle API errors

@@ -2,7 +2,10 @@ import { Component,ViewChild, ElementRef  } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-
+import { Route } from '../../models/route';
+import { RouteService } from '../../services/route.service';
+import {TokenStorageService} from "../../services/token-storage.service";
+import { Router } from '@angular/router';
 declare var google;
 @Component({
   selector: 'app-home',
@@ -15,6 +18,11 @@ export class HomePage {
   map: any;
   address: string;
 
+  data: Route;
+
+  routesData: any;
+
+  currentUser: any;
   latitude: number;
   longitude: number;
 
@@ -28,13 +36,57 @@ export class HomePage {
   constructor(
     private storage: Storage,
     private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder) {
+    private nativeGeocoder: NativeGeocoder,
+    public routeService: RouteService,
+    public router: Router,
+    private token: TokenStorageService
+    ) {
+      this.data=new Route();
+      this.routesData=[];
+
+  }
+  ionViewWillEnter() {
+    this.getAllDoneRoutes();
+  }
+  getAllRoutes() {
+    //Get saved list of students
+    this.routeService.getList().subscribe(response => {
+      this.routesData = response;
+    })
   }
 
+  getAllPlannedRoutes() {
+    //Get saved list of students
+    this.routeService.getListPlanned().subscribe(response => {
+      this.routesData = response;
+    })
+  }
+  getAllDoneRoutes() {
+    //Get saved list of students
+    this.routeService.getListDone().subscribe(response => {
+      this.routesData = response;
+    })
+  }
+
+  getTime(item: any): any{
+      let duration=new Date(item.finish_date).getTime() -new Date(item.start_date).getTime()
+
+      let time=String(new Date(duration).getHours())
+      return time;
+  }
 
   ngOnInit() {
     this.storage.create();
+    this.currentUser = this.token.getUser();
     this.loadMap();
+  }
+  submitForm() {
+
+    this.routeService.createItem(this.data).subscribe((response) => {
+      this.routesData.push(this.data);
+      this.router.navigate(['/']);
+    });
+
   }
 
   loadMap() {
@@ -149,7 +201,7 @@ export class HomePage {
 
   startTracking() {
     this.locationTraces=[];
-
+    this.data.start_date= new Date();
     this.locationSubscription = this.geolocation.watchPosition();
     this.locationSubscription.subscribe((resp) => {
       setTimeout(() => {
@@ -193,6 +245,12 @@ export class HomePage {
   stopTracking() {
     let newRoute = { finished: new Date().getTime(), path: this.locationTraces };
     this.previousTracks.push(newRoute);
+    this.data.points=this.locationTraces;
+    this.data.finish_date=new Date();
+    this.data.speed=10;
+    this.data.user=this.currentUser;
+    this.data.distance=10;
+    this.data.type='done';
     this.storage.set('routes', this.previousTracks);
 
     this.locationWatchStarted = false;

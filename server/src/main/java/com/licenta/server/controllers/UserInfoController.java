@@ -17,7 +17,6 @@ import com.licenta.server.repositories.RoleRepository;
 import com.licenta.server.repositories.UserInfoRepository;
 import com.licenta.server.repositories.UserRepository;
 import com.licenta.server.security.jwt.JwtUtils;
-import com.licenta.server.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,7 +42,7 @@ public class UserInfoController {
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserInfoResponse>> allAccess() {
+    public ResponseEntity<List<UserInfoResponse>> getUsers() {
         try {
             List<UserInfoResponse> users = new ArrayList<>();
 

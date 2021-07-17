@@ -52,6 +52,44 @@
     </ion-row>
   </ion-grid>
 
+  <ion-item>
+    <ion-label>Name</ion-label>
+    <ion-input [(ngModel)]="data.name" placeholder="Enter Name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Description</ion-label>
+    <ion-input [(ngModel)]="data.description" placeholder="Enter Description"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-button (click)="submitForm()">Add
+    </ion-button>
+  </ion-item>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Time</th>
+        <th scope="col">Distance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of routesData">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ getTime(item)}}</td>
+        <td style="display: flex">
+          <button ion-button clear item-end (click)="showHistoryRoute(this.item.points)">View Route</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
   <ion-list>
     <ion-list-header>Previous Tracks</ion-list-header>
     <ion-item *ngFor="let route of previousTracks">

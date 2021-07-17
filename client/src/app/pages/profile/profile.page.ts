@@ -23,6 +23,7 @@ export class ProfilePage implements OnInit {
     public router: Router) { }
 
   ngOnInit() {
+
     this.currentUser = this.token.getUser();
     this.getInfo();
   }
@@ -58,7 +59,7 @@ export class ProfilePage implements OnInit {
 
    update() {
     //Update item by taking id and updated data object
-    console.log("nu prea",this.data);
+
     this.infoService.update(this.data.id, this.data).subscribe(response => {
       this.router.navigate(['tabs/profile']);
     })

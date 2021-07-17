@@ -1,6 +1,11 @@
 package com.licenta.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -36,8 +41,13 @@ public class User {
 	@PrimaryKeyJoinColumn
 	private UserInfo info;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Route> routes= new ArrayList<Route>();
+
 
 	@ManyToMany(fetch = FetchType.LAZY)
+	@JsonIgnore
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
