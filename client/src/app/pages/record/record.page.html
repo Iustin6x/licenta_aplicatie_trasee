@@ -1,62 +1,63 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="warning">
-    <ion-button (click)="loadMap()" shape="round" color="dark">
-      <ion-icon slot="start" name="locate"></ion-icon>
-      Where I Am
-    </ion-button>
-    <ion-title slot="end">Google Map</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Record</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <button ion-button full icon-left (click)="startTracking()" *ngIf="!locationWatchStarted">
-    <ion-icon name="locate"></ion-icon>
-    Start Tracking
-  </button>
-<button ion-button full color="danger" icon-left (click)="stopTracking()" *ngIf="locationWatchStarted">
-    <ion-icon name="hand"></ion-icon>
-    Stop Tracking
-</button>
 
-  <div class="map-wrapper">
-    <div id="map_center">
-      <img src="assets/icon/location-marker.png" />
-    </div>
-    <div #map id="map"></div>
-  </div>
+  <div #map id="map"></div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3">
-        <b>Lattitude</b>
-      </ion-col>
-      <ion-col>
-        {{latitude}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <b>Longitude</b>
-      </ion-col>
-      <ion-col>
-        {{longitude}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <b>Address</b>
-      </ion-col>
-      <ion-col>
-        {{address}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content>
+<ion-grid *ngIf="segmentModel !== 'Start'">
+      <ion-row>
+        <ion-col size="3">
+          <b>Speed</b>
+        </ion-col>
+        <ion-col>
+          {{this.speed}} km/h
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <b>Distance</b>
+        </ion-col>
+        <ion-col>
+          {{this.distance}} km
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-list>
-    <ion-list-header>Previous Tracks</ion-list-header>
-    <ion-item *ngFor="let route of previousTracks">
-      {{ route.finished | date }}, {{ route.path.length }} Waypoints
-      <button ion-button clear item-end (click)="showHistoryRoute(route.path)">View Route</button>
-    </ion-item>
-  </ion-list>
+  <ion-button style="text-align:center" color="danger" fill="outline" (click)="startTracking()" *ngIf="segmentModel === 'Start'">
+    Start
+  </ion-button>
+  <ion-button style="text-align:center" color="danger" fill="outline"  (click)="stopTracking()" *ngIf="segmentModel === 'End'">
+      Stop
+  </ion-button>
+
+
+
+  <ion-card *ngIf="segmentModel === 'Save'">
+    <ion-card-header>
+      <ion-card-title>Create Route</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input [(ngModel)]="data.name" placeholder="Enter Name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-input [(ngModel)]="data.description" placeholder="Enter Description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="submitForm()">Add
+        </ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+
 </ion-content>

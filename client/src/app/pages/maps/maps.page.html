@@ -1,88 +1,147 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="warning">
-    <ion-button (click)="loadMap()" shape="round" color="dark">
-      <ion-icon slot="start" name="locate"></ion-icon>
-      Where I Am
-    </ion-button>
-    <ion-title slot="end">Google Map</ion-title>
+
+  <ion-toolbar color="primary">
+
+
+    <ion-segment
+
+    value="all"
+    scrollable="true"
+    mode="md"
+    [(ngModel)]="segmentModel"
+    (ionChange)="segmentChanged($event)">
+
+      <ion-segment-button value="All">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Saved">
+        <ion-label >Saved Routes</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Create">
+        <ion-label>Create Route</ion-label>
+      </ion-segment-button>
+
+
+    </ion-segment>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <button ion-button full icon-left (click)="startTracking()" *ngIf="!locationWatchStarted">
-    <ion-icon name="locate"></ion-icon>
-    Start Tracking
-  </button>
-<button ion-button full color="danger" icon-left (click)="stopTracking()" *ngIf="locationWatchStarted">
-    <ion-icon name="hand"></ion-icon>
-    Stop Tracking
-</button>
+  <div #map id="map"></div>
 
-  <div class="map-wrapper">
-    <div id="map_center">
-      <img src="assets/icon/location-marker.png" />
-    </div>
-    <div #map id="map"></div>
-  </div>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3">
-        <b>Distance</b>
-      </ion-col>
-      <ion-col>
-        {{distance}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <b>Address</b>
-      </ion-col>
-      <ion-col>
-        {{address}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-item>
-    <ion-label>Name</ion-label>
-    <ion-input [(ngModel)]="data.name" placeholder="Enter Name"></ion-input>
-  </ion-item>
+<ion-content >
 
 
-  <ion-item>
-    <ion-button (click)="submitForm()">Add
-    </ion-button>
-  </ion-item>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Distance</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of routesData">
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.description }}</td>
-        <td>{{ item.distance }</td>
-        <td style="display: flex">
-          <button ion-button clear item-end (click)="displayDirections(this.item.points)">View Route</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ion-card *ngIf="segmentModel === 'Saved' || segmentModel === 'All'">
+    <ion-card-header>
+      <ion-card-title>{{segmentModel}}</ion-card-title>
+    </ion-card-header>
 
+    <ion-card-content>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Distance</th>
+            <th scope="col">type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of routesData">
 
-  <ion-list>
-    <ion-list-header>Previous Tracks</ion-list-header>
-    <ion-item *ngFor="let route of previousTracks">
-      {{ route.finished | date }}, {{ route.path.length }} Waypoints
-      <button ion-button clear item-end (click)="showHistoryRoute(route.path)">View Route</button>
-    </ion-item>
-  </ion-list>
+            <td>{{ item.name }}</td>
+            <td>{{ item.user.username }}</td>
+            <td>{{ item.distance }} km</td>
+            <td>{{ item.type }}</td>
+            <td style="display: flex">
+              <button ion-button clear item-end (click)="displayRoute(item);getComments(item.id)">View Route</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="segmentModel === 'Create'">
+    <ion-card-header>
+      <ion-card-title>Create Route</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Title</ion-label>
+        <ion-input [(ngModel)]="data.name" placeholder="Route Title"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="submitForm()">Add
+        </ion-button>
+      </ion-item>
+    .
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="segmentModel === 'Details'">
+    <ion-card-header>
+      <ion-card-title>Details</ion-card-title>
+    </ion-card-header>
+   <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <b>{{data.name}}</b>
+        </ion-col>
+        <ion-col>
+          {{data.name}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <b>Distance</b>
+        </ion-col>
+        <ion-col>
+          {{data.distance}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <b>Type</b>
+        </ion-col>
+        <ion-col>
+          {{data.type}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="segmentModel === 'Details'">
+    <ion-card-header>
+      <ion-card-title>Comments</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="comment-box">
+        <ion-card *ngFor="let comment of comments">
+          <ion-card-content>
+            <ion-button fill="clear" size="small" (click)="removeComment(comment)" *ngIf="removeCommentvisible(comment.user)"><ion-icon name="trash"></ion-icon></ion-button> <strong>{{comment.text}}</strong>
+                <p>
+                 {{comment.user.username}} - {{comment.time | date : 'H:mm d/MMM/YY'}}
+                </p>
+          </ion-card-content>
+
+        </ion-card>
+      </div>
+      <ion-footer padding>
+        <ion-textarea [(ngModel)]="comment.text" type="text" placeholder="Comment .... "></ion-textarea>
+        <button ion-button small float-right round (click)="sendComment()">Send</button>
+      </ion-footer>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

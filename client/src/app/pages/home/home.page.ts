@@ -102,8 +102,6 @@ export class HomePage {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
-        this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
-
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
         this.addMarker(this.map);
@@ -171,33 +169,6 @@ export class HomePage {
 
   }
 
-  getCoordinates() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-
-      this.locationTraces.push({
-        latitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        accuracy:resp.coords.accuracy,
-        timestamp:resp.timestamp
-      });
-
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-
-    this.locationSubscription = this.geolocation.watchPosition();
-    this.locationSubscription.subscribe((resp) => {
-
-      this.locationWatchStarted = true;
-      this.locationTraces.push({
-        latitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        accuracy:resp.coords.accuracy,
-        timestamp:resp.timestamp
-      });
-
-    });
-  }
 
   startTracking() {
     this.locationTraces=[];

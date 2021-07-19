@@ -1,8 +1,11 @@
-import { Component,ViewChild, ElementRef, OnInit  } from '@angular/core';
+import { Component,ViewChild, ElementRef  ,OnInit} from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-import { google } from "google-maps";
+import { Route } from '../../models/route';
+import { RouteService } from '../../services/route.service';
+import {TokenStorageService} from "../../services/token-storage.service";
+import { Router } from '@angular/router';
 declare var google;
 
 @Component({
@@ -16,26 +19,87 @@ export class RecordPage implements OnInit {
   map: any;
   address: string;
 
+  data: Route;
+
+  routesData: any;
+
+  currentUser: any;
   latitude: number;
   longitude: number;
 
   locationWatchStarted:boolean;
   locationSubscription:any;
 
+  distance: number=0;
+  speed: number=0;
+  starttime: Date=new Date();
+
   locationTraces = [];
   currentMapTrack = null;
   previousTracks = [];
 
+  currentLocationMarker: any;
+
+
+
+  segmentModel = "Start";
+
   constructor(
     private storage: Storage,
     private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder) {
+    private nativeGeocoder: NativeGeocoder,
+    public routeService: RouteService,
+    public router: Router,
+    private token: TokenStorageService
+    ) {
+      this.data=new Route();
+      this.routesData=[];
+
+  }
+  ionViewWillEnter() {
+    this.getAllDoneRoutes();
+  }
+  getAllRoutes() {
+    //Get saved list of students
+    this.routeService.getList().subscribe(response => {
+      this.routesData = response;
+    })
   }
 
+  getAllPlannedRoutes() {
+    //Get saved list of students
+    this.routeService.getListPlanned().subscribe(response => {
+      this.routesData = response;
+    })
+  }
+  getAllDoneRoutes() {
+    //Get saved list of students
+    this.routeService.getListDone().subscribe(response => {
+      this.routesData = response;
+    })
+  }
+
+  getTime(item: any): any{
+      let duration=new Date(item.finish_date).getTime() -new Date(item.start_date).getTime()
+
+      let time=String(new Date(duration).getHours())
+      return time;
+  }
 
   ngOnInit() {
     this.storage.create();
+    this.currentUser = this.token.getUser();
     this.loadMap();
+  }
+  submitForm() {
+
+    this.routeService.createItem(this.data).subscribe((response) => {
+      this.routesData.push(this.data);
+      this.locationTraces=[];
+      this.redrawPath([]);
+      this.router.navigate(['tabs/maps']);
+    });
+
   }
 
   loadMap() {
@@ -51,34 +115,38 @@ export class RecordPage implements OnInit {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
-        this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
-
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-        this.addMarker(this.map);
+        this.addMarker();
         this.map.addListener('dragend', () => {
-
-          this.latitude = this.map.center.lat();
-          this.longitude = this.map.center.lng();
-          this.locationTraces.push({
-            lat:this.map.center.lat(),
-            lng:this.map.center.lng(),
-
-          });
-          this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-        });
+          if(this.locationWatchStarted){
+            this.latitude = this.map.center.lat();
+            this.longitude = this.map.center.lng();
+            this.currentLocationMarker.setPosition({
+              lat:this.map.center.lat(),
+              lng:this.map.center.lng(),
+            });
+            this.locationTraces.push({
+              lat:this.map.center.lat(),
+              lng:this.map.center.lng(),
+            });
+            this.computeTotalDistance();
+            this.computeSpeed();
+            this.redrawPath(this.locationTraces);
+          }
+      });
 
       }).catch((error) => {
         console.log('Error getting location', error);
       });
     }
 
-  addMarker(map:any){
+    addMarker(){
 
-    let marker = new google.maps.Marker({
-      map: map,
+    this.currentLocationMarker = new google.maps.Marker({
+      map: this.map,
       animation: google.maps.Animation.DROP,
-      position: map.getCenter(),
+      position: this.map.getCenter(),
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
         scale: 10,
@@ -87,36 +155,26 @@ export class RecordPage implements OnInit {
     });
   }
 
+  computeTotalDistance(){
+    let total = 0;
+      if (!this.locationTraces) {
+        return;
+      }
+      for (let i = 0; i < this.locationTraces.length-1 ; i++) {
+        let dist_points= google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.locationTraces[i].lat, this.locationTraces[i].lng), new google.maps.LatLng(this.locationTraces[i+1].lat, this.locationTraces[i+1].lng));
+        total +=dist_points;
+      }
+      total = total / 1000;
+      this.distance=Number((Math.round(total * 100) / 100).toFixed(2));
 
-  getAddressFromCoords(lattitude, longitude) {
+  }
 
 
-    console.log("getAddressFromCoords " + lattitude + " " + longitude);
+  computeSpeed(){
+    let now=new Date();
+    let diffInMs = Math.abs(now.getTime() - this.starttime.getTime());
+    this.speed =Number((Math.round(this.distance / (diffInMs / 1000) * 3600 * 100) / 100).toFixed(2)) ;
 
-    this.redrawPath(this.locationTraces);
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
-
-    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
-      .then((result: NativeGeocoderResult[]) => {
-        this.address = "";
-        let responseAddress = [];
-        for (let [key, value] of Object.entries(result[0])) {
-          if (value.length > 0)
-            responseAddress.push(value);
-
-        }
-        responseAddress.reverse();
-        for (let value of responseAddress) {
-          this.address += value + ", ";
-        }
-        this.address = this.address.slice(0, -2);
-      })
-      .catch((error: any) => {
-        this.address = "Address Not Available!";
-      });
 
   }
 
@@ -149,19 +207,22 @@ export class RecordPage implements OnInit {
   }
 
   startTracking() {
+    this.map.setZoom(20);
     this.locationTraces=[];
-
+    this.starttime=new Date();
+    this.segmentModel="End";
     this.locationSubscription = this.geolocation.watchPosition();
-    
     this.locationSubscription.subscribe((resp) => {
-      setTimeout(() => {
         this.locationWatchStarted = true;
+        this.currentLocationMarker.setPosition({
+          lat:resp.coords.latitude,
+          lng:resp.coords.longitude,
+        });
         this.locationTraces.push({
           lat:resp.coords.latitude,
           lng:resp.coords.longitude,
         });
         this.redrawPath(this.locationTraces);
-      }, 0);
     });
 
 
@@ -184,28 +245,26 @@ export class RecordPage implements OnInit {
     }
   }
 
-  loadHistoricRoutes() {
-    this.storage.get('routes').then(data => {
-      if (data) {
-        this.previousTracks = data;
-      }
-    });
-  }
+
 
   stopTracking() {
-    let newRoute = { finished: new Date().getTime(), path: this.locationTraces };
-    this.previousTracks.push(newRoute);
-    this.storage.set('routes', this.previousTracks);
-
+    this.map.setZoom(15);
+    this.data.points=this.locationTraces;
+    this.data.finish_date=new Date();
+    this.data.start_date=  this.starttime;
+    this.data.speed=this.speed;
+    this.data.user=this.currentUser;
+    this.data.distance=this.distance;
+    this.data.type='done';
     this.locationWatchStarted = false;
     this.locationSubscription
-    this.currentMapTrack.setMap(null);
+    //this.currentMapTrack.setMap(null);
+    this.segmentModel = "Save";
   }
 
   showHistoryRoute(route) {
     this.redrawPath(route);
   }
-
-
+  startStopPlaying(){}
 
 }

@@ -4,7 +4,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { google } from "google-maps";
 import { Route } from '../../models/route';
+import { Comment } from '../../models/comment';
 import { RouteService } from '../../services/route.service';
+import { CommentService } from '../../services/comment.service';
 import {TokenStorageService} from "../../services/token-storage.service";
 import { Router } from '@angular/router';
 
@@ -23,10 +25,12 @@ export class MapsPage implements OnInit {
   originLatLng: any;
   destinationLatLng: any;
 
+  markers: any[] = [];
+
   directions : google.maps.DirectionsWaypoint[]= [];
   route= [];
 
-  routesData: any;
+  routesData: any=[];
   data: Route;
 
   currentUser: any;
@@ -52,26 +56,101 @@ export class MapsPage implements OnInit {
   geocoder = new google.maps.Geocoder();
 
 
+  comments: any[]=[];
+  comment: Comment=new Comment();
+
   constructor(
     private storage: Storage,
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
     public router: Router,
     public routeService: RouteService,
+    public commentService: CommentService,
     private token: TokenStorageService) {
       this.data=new Route();
       this.routesData=[];
+      this.comments=[];
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
+
     this.getAllRoutes();
   }
+
+
+  getComments(id: any) {
+
+    this.commentService.getCommentsRoute(id).subscribe(response => {
+      if(response){
+        this.comments=response.slice().reverse();
+      }
+    })
+
+  }
+
+
+  sendComment(){
+
+      this.comment.time=new Date();
+      this.comment.user=this.currentUser;
+      this.comment.route=this.data;
+      this.commentService.create(this.comment).subscribe((response) => {
+        this.getComments(this.data.id);
+        this.comment=new Comment();
+      });
+
+  }
+
+  removeComment(comment: any){
+    console.log("cs",comment);
+    this.commentService.deleteItem(comment.id).subscribe((response)=>{
+      this.getComments(this.data.id);
+    })
+  }
+
+  removeCommentvisible(user: any): boolean{
+    if(user.id===this.currentUser.id || this.currentUser.roles.includes('ROLE_ADMIN')){
+      return true;
+    }
+    return false;
+  }
+
+
   getAllRoutes() {
 
     this.routeService.getList().subscribe(response => {
-
       this.routesData = response;
-    });
+      response.forEach(element => {
+        this.addMarker(element);
+      });
+    })
+
+  }
+
+  getAllPlannedRoutes() {
+
+    this.routeService.getListPlanned().subscribe(response => {
+      this.routesData = response;
+      response.forEach(element => {
+        this.addMarker(element);
+      });
+    })
+  }
+  getAllDoneRoutes() {
+
+    this.routeService.getListDone().subscribe(response => {
+      this.routesData = response;
+      response.forEach(element => {
+        this.addMarker(element);
+      });
+    })
+  }
+  getAllbyUsernameAndTypeRoutes(username:any,type:any) {
+
+    this.routeService.getListByUsernameandType(username,type).subscribe(response => {
+      this.routesData = response;
+      this.addmarkers(response);
+    })
   }
 
   ngOnInit() {
@@ -81,18 +160,19 @@ export class MapsPage implements OnInit {
   }
   submitForm() {
     //this.data.points= result.routes[0].legs[0];
-    this.data.finish_date=null;
-    this.data.points=this.route;
-    this.data.speed=null;
-    this.data.description="";
-    this.data.user=this.currentUser;
-    this.data.distance=this.distance;
-    this.data.type='planned';
-    this.routeService.createItem(this.data).subscribe((response) => {
-      this.routesData.push(this.data);
-      this.router.navigate(['/']);
-    });
-
+    if(this.route.length>1){
+      this.data.finish_date=null;
+      this.data.points=this.route;
+      this.data.speed=null;
+      this.data.description="";
+      this.data.user=this.currentUser;
+      this.data.distance=this.distance;
+      this.data.type='planned';
+      this.routeService.createItem(this.data).subscribe((response) => {
+        this.routesData.push(this.data);
+        this.segmentModel="All";
+      });
+   }
   }
 
   /*
@@ -114,11 +194,14 @@ export class MapsPage implements OnInit {
         let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         let mapOptions = {
           center: latLng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          streetViewControl: false,
         }
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+        //this.map.setMyLocationEnabled(true);
 
         this.first=true;
         this.second=true;
@@ -126,7 +209,7 @@ export class MapsPage implements OnInit {
           let latitude = e.latLng.lat();
           let longitude = e.latLng.lng();
           //console.log( latitude + ', ' + longitude );
-          this.placeMarkerAndPanTo(latitude,longitude, this.map);
+          this.placeMarker(latitude,longitude);
         });
 
 
@@ -149,21 +232,79 @@ export class MapsPage implements OnInit {
     }
 
 
-    placeMarkerAndPanTo(lat:number,long:number, map: any) {
-      let latLng = new google.maps.LatLng(lat, long);
-    this.processMarkerClick(latLng);
-    if(this.first){
-      new google.maps.Marker({
-        position: latLng,
-        animation: google.maps.Animation.DROP,
-        map: map,
-        draggable: true,
+    removeMarkers(){
+      this.markers.forEach(marker=>
+        marker.setMap(null)
+        );
+    }
+
+
+
+    removeDirections(){
+      this.directionsDisplay.set('directions', null)
+
+    }
+
+    addmarkers(list: any){
+      if(list){
+        list.forEach(element => {
+        this.addMarker(element);
+      });}
+    }
+
+    addMarker(markerData: any) {
+      this.removeDirections();
+
+      let marker = new google.maps.Marker({
+        position: markerData.points[0],
+        map: this.map,
+        title: markerData.name,
+        draggable: false
       });
-      map.panTo(latLng);
-      this.first=false;
+      marker.addListener('click', ()=>{
+        this.displayRoute(markerData);
+
+      });
+      this.markers.push(marker);
+
     }
+
+    placeMarker(lat:number,long:number) {
+      if(this.segmentModel==="Create"){
+        let latLng = new google.maps.LatLng(lat, long);
+        this.processMarkerClick(latLng);
+        if(this.first){
+          this.markers.push(new google.maps.Marker({
+            position: latLng,
+            animation: google.maps.Animation.DROP,
+            map: this.map,
+            draggable: true,
+          }));
+        this.map.panTo(latLng);
+        this.first=false;
+      }else{
+        this.removeMarkers();
+      }}
     }
+
+    displayRoute(route: any){
+      if(route.points){
+        if(route.type=="planned"){
+          this.displayDirections(route.points);
+        }else{
+          this.redrawPath(route.points);
+        }
+        this.map.panTo(route.points[0]);
+      }
+      this.removeMarkers();
+      this.data=route;
+      this.segmentModel="Details";
+    }
+
+
     displayDirections(route: any){
+      this.removeDirections();
+      this.removeMarkers();
       let ways: google.maps.DirectionsWaypoint[]= [];
       for (let i=1; i<route.length-1; i++) {
         ways.push({location:new google.maps.LatLng(route[i].lat,route[i].lng),stopover: true});
@@ -195,96 +336,9 @@ export class MapsPage implements OnInit {
         //this.saveDirections();
       }
 
-      /*
-      if (this.first) {
-          this.originLatLng=latLng;
-          this.first=false;
-      }
-      else if(!this.first){
-        if(!this.second){
-          //this.directions.push({location:new google.maps.LatLng(this.destinationLatLng.lat(),this.destinationLatLng.lng()),stopover: true});
-          let ways: google.maps.DirectionsWaypoint[]= [];
-          this.route.slice(1,this.route.length-1).forEach((latlng)=>{
-            ways.push({location:new google.maps.LatLng(latlng.lat,this.destinationLatLng.lng()),stopover: true});
-          })
-          origin: this.directions[0],
-        destination: this.directions[this.directions.length-1],
-        waypoints:[this.directions.slice(1,this.directions.length-1)],
-          this.destinationLatLng=latLng;
-          console.log("metoda2",this.directions.toString());
-          this.directionsService.route({
-              origin: {
-                lat: this.originLatLng.lat(),
-                lng: this.originLatLng.lng()
-            },
-              destination: {
-                lat: latLng.lat(),
-                lng: latLng.lng()
-            },
-              waypoints:this.directions,
-              travelMode: google.maps.TravelMode.WALKING
-          },
-          ).then((result) => {
-            console.log("a mers",result);
-            this.directionsDisplay.setDirections(result);
-            console.log("directiaaa",this.directionsDisplay.getDirections().routes[0]);
-          })
-          .catch((e) => {
-            console.log("Could not display directions due to: " + e);
 
-          });
-
-        }else{
-          this.destinationLatLng=latLng;
-          this.second=false;
-          this.directionsService.route({
-              origin:{
-                  lat: this.originLatLng.lat(),
-                  lng: this.originLatLng.lng()
-              },
-              destination: {
-                lat: latLng.lat(),
-                lng: latLng.lng()
-            },
-              travelMode: google.maps.TravelMode.WALKING
-          },
-          ).then((result) => {
-            console.log("a mers2",result);
-            this.directionsDisplay.setDirections(result);
-            console.log("directiaaa",this.directionsDisplay.getDirections().routes[0]);
-          })
-          .catch((e) => {
-            console.log("Could not display directions due to: " + e);
-
-          });
-        }
-      }
-      */
   }
-    displayRoute(
-      origin: string,
-      destination: string,
-      service: any,
-      display: any
-    ) {
-      service
-        .route({
-          origin: origin,
-          destination: destination,
-          waypoints: [
-            { location: "Adelaide, SA" },
-            { location: "Broken Hill, NSW" },
-          ],
-          travelMode: google.maps.TravelMode.DRIVING,
-          avoidTolls: true,
-        })
-        .then((result) => {
-          display.setDirections(result);
-        })
-        .catch((e) => {
-          alert("Could not display directions due to: " + e);
-        });
-    }
+
 
     computeTotalDistance(result: any) {
       let total = 0;
@@ -325,67 +379,9 @@ export class MapsPage implements OnInit {
 
     }
 
-    codeAdress(adress: any): any{
-      this.geocoder.geocode( { 'address': adress}, function(results, status) {
-        if (status == 'OK') {
-          return results[0].geometry.location;
-        } else {
-          console.log('Geocode was not successful for the following reason: ' + status);
-          return;
-        }
-      });
-    }
 
-  getCoordinates() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-
-      this.locationTraces.push({
-        latitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        accuracy:resp.coords.accuracy,
-        timestamp:resp.timestamp
-      });
-
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-
-    this.locationSubscription = this.geolocation.watchPosition();
-    this.locationSubscription.subscribe((resp) => {
-
-      this.locationWatchStarted = true;
-      this.locationTraces.push({
-        latitude:resp.coords.latitude,
-        longitude:resp.coords.longitude,
-        accuracy:resp.coords.accuracy,
-        timestamp:resp.timestamp
-      });
-
-    });
-  }
-
-  startTracking() {
-    this.locationTraces=[];
-
-    this.locationSubscription = this.geolocation.watchPosition();
-    this.locationSubscription.subscribe((resp) => {
-      setTimeout(() => {
-        this.locationWatchStarted = true;
-        this.locationTraces.push({
-          lat:resp.coords.latitude,
-          lng:resp.coords.longitude,
-        });
-        this.redrawPath(this.locationTraces);
-      }, 0);
-    });
-
-
-  }
 
   redrawPath(path) {
-    if (this.currentMapTrack) {
-      this.currentMapTrack.setMap(null);
-    }
 
     if (path.length > 1) {
       this.currentMapTrack = new google.maps.Polyline({
@@ -399,26 +395,29 @@ export class MapsPage implements OnInit {
     }
   }
 
-  loadHistoricRoutes() {
-    this.storage.get('routes').then(data => {
-      if (data) {
-        this.previousTracks = data;
-      }
-    });
+
+
+  segmentModel = "All";
+  segmentChanged(event){
+    console.log(this.segmentModel);
+    if(this.segmentModel=="Saved"){
+      this.removeMarkers();
+      this.getAllbyUsernameAndTypeRoutes(this.currentUser.username,"planned");
+    }else if(this.segmentModel=="All"){
+      this.getAllRoutes();
+    }
+
+    if(this.segmentModel!="Details"){
+
+      this.removeDirections();
+      if(this.currentMapTrack){
+              this.currentMapTrack.setMap(null);
+      this.removeMarkers();
+    }
   }
-
-  stopTracking() {
-    let newRoute = { finished: new Date().getTime(), path: this.locationTraces };
-    this.previousTracks.push(newRoute);
-    this.storage.set('routes', this.previousTracks);
-
-    this.locationWatchStarted = false;
-    this.locationSubscription
-    this.currentMapTrack.setMap(null);
+    if(this.segmentModel=="Create"){
+      this.data=new Route();
+      this.removeMarkers();
+    }
   }
-
-  showHistoryRoute(route) {
-    this.redrawPath(route);
-  }
-
 }

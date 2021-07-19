@@ -49,8 +49,16 @@ public class Route {
             inverseJoinColumns = @JoinColumn(name = "point_id"))
     private List<Point> points= new ArrayList<Point>();
 
+
     @Column(name = "type")
     private String type;
+
+    @ManyToMany()
+    @JsonIgnore
+    @JoinTable(	name = "user_follow_route",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> followers= new ArrayList<User>();
 
     public Route() {
     }
@@ -79,6 +87,8 @@ public class Route {
         this.points = points;
         this.type = type;
     }
+
+
 
     public String getType() {
         return type;

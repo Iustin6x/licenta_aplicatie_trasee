@@ -35,7 +35,7 @@ export class ProfileEditPage implements OnInit {
   }
 
   update() {
-    //Update item by taking id and updated data object
+
     this.infoService.update(this.id, this.data).subscribe(response => {
       this.router.navigate(['tabs/profile']);
     })

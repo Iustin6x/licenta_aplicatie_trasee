@@ -3,18 +3,28 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-const API_URL = 'http://localhost:8080/api/users/';
+const API_URL = 'http://localhost:8080/api/comments/';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserinfoService {
+export class CommentService {
+
 
   constructor(private http: HttpClient) { }
 
-  get(id: any): Observable<any> {
+  getCommentsRoute(id: any): Observable<any> {
     return this.http
-    .get<any>(API_URL + id)
+    .get<any>(API_URL + 'route/' + id)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  getCommentsUser(id: any): Observable<any> {
+    return this.http
+    .get<any>(API_URL  + 'user/' + id)
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -28,6 +38,16 @@ export class UserinfoService {
   update(id: any, data: any): Observable<any> {
 
     return this.http.put(API_URL + id, data);
+  }
+
+
+  deleteItem(id) {
+    return this.http
+      .delete(API_URL  + id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
   }
 
 // Handle API errors

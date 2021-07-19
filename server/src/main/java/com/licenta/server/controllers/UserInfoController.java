@@ -47,7 +47,7 @@ public class UserInfoController {
             List<UserInfoResponse> users = new ArrayList<>();
 
             userinfoRepository.findAll().forEach(userData->{
-                users.add(new UserInfoResponse(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed()));
+                users.add(new UserInfoResponse(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed(),userData.getLatitude(),userData.getLongitude()));
             });
 
             if (users.isEmpty()) {
@@ -73,21 +73,21 @@ public class UserInfoController {
         }
     }
     */
-    @GetMapping("/user/{username}")
+    @GetMapping("/users/{username}")
     public ResponseEntity<UserInfoResponse> getUserInfoByUsername(@PathVariable("username") String username) {
         //System.out.println(id);
         Optional<UserInfo> userData = userinfoRepository.findByUserUsername(username);
 
         if (userData.isPresent()) {
-            return new ResponseEntity<>(new UserInfoResponse(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed()), HttpStatus.OK);
+            return new ResponseEntity<>(new UserInfoResponse(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed(),userData.get().getLatitude(),userData.get().getLatitude()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     
 
-    @PutMapping("/user/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<UserInfo> updateUserInfo(@PathVariable("id") long id, @RequestBody UserInfo info) {
         Optional<UserInfo> userData = userinfoRepository.findById( id);
 
@@ -97,13 +97,15 @@ public class UserInfoController {
             _info.setDescription(info.getDescription());
             _info.setLast_name(info.getLast_name());
             _info.setSpeed(info.getSpeed());
+            _info.setLongitude(info.getLatitude());
+            _info.setLatitude(info.getLongitude());
             return new ResponseEntity<>(userinfoRepository.save(_info), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deleteUserInfo(@PathVariable("id") long id) {
         try {

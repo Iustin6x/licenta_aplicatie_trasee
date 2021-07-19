@@ -29,9 +29,27 @@ export class RouteService {
         catchError(this.handleError)
       )
   }
+
+  getFollowed(id: any): Observable<any> {
+    return this.http
+      .get<any>(API_URL+'routes/followrs/'+id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
   getListPlanned(): Observable<any> {
     return this.http
       .get<any>(API_URL+'routes/planned')
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+
+  getListByUsernameandType(username: any,type:any): Observable<any> {
+    return this.http
+      .get<any>(API_URL+'routes/'+username+'/'+type)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -48,12 +66,21 @@ export class RouteService {
   }
 
   createItem(data: any): Observable<any> {
-    return this.http.post(API_URL + 'route', data);
+    return this.http.post(API_URL + 'routes', data);
   }
 
   update(id: any, data: any): Observable<any> {
 
-    return this.http.put(API_URL + 'route' + id, data);
+    return this.http.put(API_URL + 'routes' + id, data);
+  }
+
+  deleteItem(id) {
+    return this.http
+      .delete(API_URL+ 'routes/' + id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
   }
 
 // Handle API errors

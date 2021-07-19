@@ -34,7 +34,7 @@ public class TestController {
 			List<UserInfoResponse> users = new ArrayList<>();
 
 			userinfoRepository.findAll().forEach(userData->{
-				users.add(new UserInfoResponse(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed()));
+				users.add(new UserInfoResponse(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed(),userData.getLatitude(),userData.getLongitude()));
 			});
 
 			if (users.isEmpty()) {
@@ -48,15 +48,9 @@ public class TestController {
 	}
 	
 	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public String userAccess() {
 		return "User Content.";
-	}
-
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
-	public String moderatorAccess() {
-		return "Moderator Board.";
 	}
 
 	@GetMapping("/admin")

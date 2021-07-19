@@ -21,9 +21,28 @@ public class UserInfoResponse {
     private Float speed;
 
 
+    private Double latitude;
+
+    private Double longitude;
 
 
     public UserInfoResponse() {
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getUsername() {
@@ -74,12 +93,15 @@ public class UserInfoResponse {
         this.speed = speed;
     }
 
-    public UserInfoResponse(Long id, String username, String first_name, String last_name, String description, Float speed) {
+
+    public UserInfoResponse(Long id, String username, String first_name, String last_name, String description, Float speed, Double latitude, Double longitude) {
         this.id = id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.description = description;
         this.speed = speed;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

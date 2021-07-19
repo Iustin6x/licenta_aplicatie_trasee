@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
     List<Route> findAllByUserUsername(String username);
+    List<Route> findAllByUserUsernameAndType(String username,String type);
     List<Route> findAllByType(String type);
+    List<Route> findAllByFollowersId(Long id);
+    Boolean deleteById(long id);
 
 }

@@ -82,7 +82,7 @@
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.description }}</td>
-        <td>{{ getTime(item)}}</td>
+        <td>{{item.start_date | date : 'H:mm'}}</td>
         <td style="display: flex">
           <button ion-button clear item-end (click)="showHistoryRoute(this.item.points)">View Route</button>
         </td>

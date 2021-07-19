@@ -33,11 +33,20 @@ public class UserInfo {
     private Float speed;
 
 
+
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
 
     public UserInfo() {
     }
@@ -51,23 +60,25 @@ public class UserInfo {
         this.id = id;
     }
 
-
-
-    public UserInfo(Long id, String first_name, String last_name, String description, float speed, User user) {
+    public UserInfo(Long id, String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.description = description;
         this.speed = speed;
         this.user = user;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public UserInfo(Long id, String first_name, String last_name, String description, float speed) {
-        this.id = id;
+    public UserInfo(String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.description = description;
         this.speed = speed;
+        this.user = user;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getFirst_name() {
@@ -108,5 +119,22 @@ public class UserInfo {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+
+    public Double  getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double  latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
