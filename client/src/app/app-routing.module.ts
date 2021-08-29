@@ -22,9 +22,14 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule)
+  },
+
 
 
 
