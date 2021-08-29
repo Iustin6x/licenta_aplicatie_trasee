@@ -4,57 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bca5cbe8-29bb-4e44-a08c-145d0cc14689" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/models/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/models/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user-routing.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user.page.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/board-user/board-user.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/friends/friends.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home-routing.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/home/home.page.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/login/login.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/maps/maps.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile-edit/profile-edit.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile-edit/profile-edit.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile-edit/profile-edit.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile-edit/profile-edit.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/profile/profile.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/record/record.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/record/record.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/record/record.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/record/record.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/register/register.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/register/register.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/register/register.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/register/register.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/pages/tab-bar/tab-bar.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/services/route.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/services/route.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/services/user.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/app/services/userinfo.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/app/services/userinfo.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/RouteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/TestController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/UserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/UserInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/Route.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/Route.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/models/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/payload/response/UserInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/payload/response/UserInfoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/licenta/server/controllers/TestController.class" beforeDir="false" />
-    </list>
+    <list default="true" id="bca5cbe8-29bb-4e44-a08c-145d0cc14689" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,7 +133,7 @@
       <workItem from="1626706169710" duration="11348000" />
       <workItem from="1626988856145" duration="10106000" />
       <workItem from="1627559043597" duration="570000" />
-      <workItem from="1630229050708" duration="1695000" />
+      <workItem from="1630229050708" duration="2285000" />
     </task>
     <task id="LOCAL-00001" summary="Models added">
       <created>1622045593888</created>

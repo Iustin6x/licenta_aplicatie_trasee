@@ -1,4 +1,30 @@
-<ion-content padding="true">
-  <app-slides></app-slides>
-  <ion-button expand="block" share="round" color="mango" (click)="navigateToLogin()">Start</ion-button>
-  </ion-content>
+<ion-content fullscreen class="ion-padding" scroll-y="false">
+  <ion-slides>
+
+    <ion-slide>
+      <div class="slide">
+        <img Src="../../../assets/img/GfGBiiMKSIO1nGqxNNb8_bestroute2.png"/>
+        <h2>Bun venit</h2>
+     </div>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../../assets/img/j5OnReCZTiWVpTDrniVg_3zjk_anyo_210621-Converted.png"/>
+      <h2>Exploreaza noi trasee</h2>
+      <p><b>BestRoute</b> te ajuta sa gasesti noi trasee oriunde iti doresti.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../../assets/img/jTS08r2RBq1g1eEIURUS_2650147.png"/>
+      <h2>Leaga noi prietenii</h2>
+      <p>Gaseste noi parteneri de calatorit din comunitatea <b>BestROute</b></p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../../assets/img/HjmH0e5Rv2kQPXPKBRLi_compass.png"/>
+      <h2>Gata de explorat?</h2>
+      <ion-button expand="block"(click)="navigateToLogin()">Continua <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
