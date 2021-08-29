@@ -1,5 +1,13 @@
 <ion-header [translucent]="true">
 
+
+
+</ion-header>
+
+<div #map id="map"></div>
+
+<ion-content >
+
   <ion-toolbar color="primary">
 
 
@@ -12,42 +20,37 @@
     (ionChange)="segmentChanged($event)">
 
       <ion-segment-button value="All">
-        <ion-label>All</ion-label>
+        <ion-label>Toate</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Follow">
+        <ion-label >Urmarite</ion-label>
       </ion-segment-button>
 
       <ion-segment-button value="Saved">
-        <ion-label >Saved Routes</ion-label>
+        <ion-label >Salvate</ion-label>
       </ion-segment-button>
 
       <ion-segment-button value="Create">
-        <ion-label>Create Route</ion-label>
+        <ion-label>Creaza o ruta</ion-label>
       </ion-segment-button>
 
 
     </ion-segment>
 
   </ion-toolbar>
-</ion-header>
 
-  <div #map id="map"></div>
+  <ion-card *ngIf="segmentModel === 'Saved' || segmentModel === 'All' || segmentModel === 'Follow' ">
 
-<ion-content >
-
-
-
-  <ion-card *ngIf="segmentModel === 'Saved' || segmentModel === 'All'">
-    <ion-card-header>
-      <ion-card-title>{{segmentModel}}</ion-card-title>
-    </ion-card-header>
 
     <ion-card-content>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Author</th>
-            <th scope="col">Distance</th>
-            <th scope="col">type</th>
+            <th scope="col">Titlu</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Distanta</th>
+            <th scope="col">Tip</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +61,7 @@
             <td>{{ item.distance }} km</td>
             <td>{{ item.type }}</td>
             <td style="display: flex">
-              <button ion-button clear item-end (click)="displayRoute(item);getComments(item.id)">View Route</button>
+              <button ion-button clear item-end (click)="displayRoute(item);">Vizualizeaza ruta</button>
             </td>
           </tr>
         </tbody>
@@ -67,18 +70,16 @@
   </ion-card>
 
   <ion-card *ngIf="segmentModel === 'Create'">
-    <ion-card-header>
-      <ion-card-title>Create Route</ion-card-title>
-    </ion-card-header>
+
 
     <ion-card-content>
       <ion-item>
-        <ion-label>Title</ion-label>
-        <ion-input [(ngModel)]="data.name" placeholder="Route Title"></ion-input>
+        <ion-label>Titlu</ion-label>
+        <ion-input [(ngModel)]="data.name" placeholder="denumirea rutei"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-button (click)="submitForm()">Add
+        <ion-button (click)="submitForm()">Creaza
         </ion-button>
       </ion-item>
     .
@@ -87,21 +88,21 @@
 
   <ion-card *ngIf="segmentModel === 'Details'">
     <ion-card-header>
-      <ion-card-title>Details</ion-card-title>
+      <ion-card-title>{{data.name}}
+        <ion-button style="text-align:center" color="danger" fill="outline" (click)="followRoute()" *ngIf="!checkfollowRoute()">
+          Urmareste
+        </ion-button>
+        <ion-button style="text-align:center" color="danger" fill="outline"  (click)="followRoute()" *ngIf="checkfollowRoute()">
+          Nu mai urmari
+        </ion-button>
+      </ion-card-title>
     </ion-card-header>
+
    <ion-card-content>
     <ion-grid>
       <ion-row>
         <ion-col size="3">
-          <b>{{data.name}}</b>
-        </ion-col>
-        <ion-col>
-          {{data.name}}
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="3">
-          <b>Distance</b>
+          <b>Distanta</b> km
         </ion-col>
         <ion-col>
           {{data.distance}}
@@ -109,7 +110,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="3">
-          <b>Type</b>
+          <b>Tip</b>
         </ion-col>
         <ion-col>
           {{data.type}}
@@ -122,7 +123,7 @@
 
   <ion-card *ngIf="segmentModel === 'Details'">
     <ion-card-header>
-      <ion-card-title>Comments</ion-card-title>
+      <ion-card-title>Comentarii</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -139,7 +140,7 @@
       </div>
       <ion-footer padding>
         <ion-textarea [(ngModel)]="comment.text" type="text" placeholder="Comment .... "></ion-textarea>
-        <button ion-button small float-right round (click)="sendComment()">Send</button>
+        <button ion-button small float-right round (click)="sendComment()">Trimite</button>
       </ion-footer>
     </ion-card-content>
   </ion-card>

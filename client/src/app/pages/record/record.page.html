@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Record</ion-title>
+    <ion-title>Inregistreaza traseu</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
 <ion-grid *ngIf="segmentModel !== 'Start'">
       <ion-row>
         <ion-col size="3">
-          <b>Speed</b>
+          <b>Viteza</b>
         </ion-col>
         <ion-col>
           {{this.speed}} km/h
@@ -19,7 +19,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="3">
-          <b>Distance</b>
+          <b>Distanta</b>
         </ion-col>
         <ion-col>
           {{this.distance}} km
@@ -38,22 +38,22 @@
 
   <ion-card *ngIf="segmentModel === 'Save'">
     <ion-card-header>
-      <ion-card-title>Create Route</ion-card-title>
+      <ion-card-title>Inregistreaza ruta</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <ion-item>
-        <ion-label>Name</ion-label>
-        <ion-input [(ngModel)]="data.name" placeholder="Enter Name"></ion-input>
+        <ion-label>Titlu</ion-label>
+        <ion-input [(ngModel)]="data.name" placeholder="Ruta de zi"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label>Description</ion-label>
-        <ion-input [(ngModel)]="data.description" placeholder="Enter Description"></ion-input>
+        <ion-label>Descriere</ion-label>
+        <ion-input [(ngModel)]="data.description" placeholder="O noua ruta de zi"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-button (click)="submitForm()">Add
+        <ion-button (click)="submitForm()">Adauga
         </ion-button>
       </ion-item>
     </ion-card-content>

@@ -30,9 +30,9 @@ export class RouteService {
       )
   }
 
-  getFollowed(id: any): Observable<any> {
+  getFollowedRoutes(id: any): Observable<any> {
     return this.http
-      .get<any>(API_URL+'routes/followrs/'+id)
+      .get<any>(API_URL+'routes/followers/'+id)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -58,7 +58,7 @@ export class RouteService {
 
   get(id: any): Observable<any> {
     return this.http
-    .get<any>(API_URL + id)
+    .get<any>(API_URL + 'routes/' + id)
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -71,7 +71,7 @@ export class RouteService {
 
   update(id: any, data: any): Observable<any> {
 
-    return this.http.put(API_URL + 'routes' + id, data);
+    return this.http.put(API_URL + 'routes/' + id, data);
   }
 
   deleteItem(id) {

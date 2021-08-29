@@ -9,17 +9,6 @@ const routes: Routes = [
     component: TabBarPage,
     children: [
       {
-        path: 'home',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../home/home.module').then(m => m.HomePageModule)
-          }
-        ]
-      },
-
-      {
         path: 'profile',
         children: [
           {
@@ -29,6 +18,11 @@ const routes: Routes = [
           },
           {
             path: 'edit/:username',
+            loadChildren: () =>
+              import('../profile-edit/profile-edit.module').then(m => m.ProfileEditPageModule)
+          },
+          {
+            path: 'edit/',
             loadChildren: () =>
               import('../profile-edit/profile-edit.module').then(m => m.ProfileEditPageModule)
           },
@@ -71,14 +65,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/tabs/maps',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/tabs/maps',
     pathMatch: 'full'
   }
 ];

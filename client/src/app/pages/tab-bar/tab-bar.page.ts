@@ -24,7 +24,7 @@ export class TabBarPage implements OnInit {
   ionViewDidEnter(){
     this.locationSubscription = this.geolocation.watchPosition();
     this.locationSubscription.subscribe((resp) => {
-      console.log("userr",this.userinfo)
+    
         this.userinfo.latitude=resp.coords.latitude;
         this.userinfo.longitude=resp.coords.longitude;
         this.update(this.userinfo.id,this.userinfo);

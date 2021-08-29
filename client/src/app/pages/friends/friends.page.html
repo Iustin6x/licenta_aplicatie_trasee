@@ -1,37 +1,43 @@
 <ion-header>
-  <ion-toolbar color="tertiary">
-    <ion-title>Friends</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Prieteni</ion-title>
   </ion-toolbar>
 </ion-header>
+<div #map id="map"></div>
+<ion-content>
 
-<ion-content class="ion-padding">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Username</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">First_name</th>
-        <th scope="col">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of usersData"  (click)="onOpenItem(item)" detail=”true”>
-        <td>{{ item.id }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.first_name }}</td>
-        <td>{{ item.last_name }}</td>
-        <td>{{ item.description}}</td>
-        <td style="display: flex">
-          <ion-button color="warning" size="small">
-            <ion-icon name="create"></ion-icon>
-          </ion-button>
-          <ion-button color="danger" size="small" >
-            <ion-icon name="trash"></ion-icon>
-          </ion-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ion-card >
+    <ion-card-header>
+      <ion-card-title>Utilizatori</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Nume</th>
+            <!---<th scope="col">Distance</th>-->
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of usersData" [style.color]="userscolor[item.id]"  detail=”true” >
+
+            <td>{{ item.username }}</td>
+            <td>{{ item.first_name }} {{ item.last_name }}</td>
+            <td>{{ usersdistance[item.id] }} km departare</td>
+            <td style="display: flex">
+              <ion-button color="warning" size="small" (click)="onOpenItemEdit(item)" *ngIf="this.currentUser.roles.includes('ROLE_ADMIN')">
+                <ion-icon name="create"></ion-icon>
+              </ion-button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
 
 </ion-content>

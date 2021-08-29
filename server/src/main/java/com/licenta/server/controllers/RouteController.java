@@ -1,6 +1,7 @@
 package com.licenta.server.controllers;
 
 import com.licenta.server.models.Route;
+import com.licenta.server.models.UserInfo;
 import com.licenta.server.repositories.RouteRepository;
 import com.licenta.server.repositories.UserInfoRepository;
 import com.licenta.server.repositories.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -123,10 +125,41 @@ public class RouteController {
             System.out.println(route);
             Route _route = routeRepository
                     .save(route);
+            //TO-DO sa mearga
+            if(_route.getType().equals("done")) {
+                System.out.println("donee");
+                Optional<UserInfo> userData = userinfoRepository.findById(route.getUser().getId());
+
+                if (userData.isPresent()) {
+                    UserInfo _info = userData.get();
+                    _info.setDistance(_info.getDistance() + route.getDistance());
+                    _info.setSpeed((_info.getSpeed() + route.getSpeed()) / 2);
+
+                    userinfoRepository.save(_info);
+                }
+            }
             return new ResponseEntity<>(_route, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/routes/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Route> updateRoute(@PathVariable("id") long id, @RequestBody Route route) {
+        Optional<Route> data = routeRepository.findById( id);
+
+        if (data.isPresent()) {
+            Route _route = data.get();
+            _route.setDescription(route.getDescription());
+            _route.setSpeed(route.getSpeed());
+            _route.setDistance(route.getDistance());
+            _route.setName(route.getName());
+            _route.setFollowers(route.getFollowers());
+            return new ResponseEntity<>(routeRepository.save(_route), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,32 +1,173 @@
-<ion-header>
-  <ion-toolbar color="tertiary">
-    <ion-title>Profile</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>{{username}}
+    <ion-button color="warning" size="small" (click)="onOpenEdit()" *ngIf="this.currentUser.roles.includes('ROLE_ADMIN') || this.currentUser.username === this.username">
+      <ion-icon name="create"></ion-icon>
+    </ion-button>
+  </ion-title>
   </ion-toolbar>
+  <ion-toolbar color="primary">
+
+    <ion-segment
+
+    value="all"
+    scrollable="true"
+    mode="md"
+    [(ngModel)]="segmentModel"
+    (ionChange)="segmentChanged($event)">
+
+      <ion-segment-button value="About">
+        <ion-label>Despre</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Completed">
+        <ion-label >Rute realizate</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Planned">
+        <ion-label>Rute planificate</ion-label>
+      </ion-segment-button>
+
+
+    </ion-segment>
+
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="filtersLoaded | async">
+<div #map id="map"></div>
 
-  <ion-item>
-    <ion-label>First Name</ion-label>
-    <ion-input [(ngModel)]="data.first_name" placeholder="Enter First Name"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Last Name</ion-label>
-    <ion-input [(ngModel)]="data.last_name" placeholder="Enter Last Name"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Description</ion-label>
-    <ion-input [(ngModel)]="data.description" placeholder="Enter Description"></ion-input>
-  </ion-item>
-  <ion-button (click)="update()" color="success" size="small">
-    Update
-  </ion-button>
-  <ion-button [routerLink]="[ '/profile']" color="danger" size="small">
-    Cancel
-  </ion-button>
+<ion-content >
+
+
+
+  <ion-card *ngIf="segmentModel === 'Completed' || segmentModel === 'Planned'">
+
+    <ion-card-content>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Titlu</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Distanta</th>
+            <th scope="col">Tip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of routesData">
+
+            <td>{{ item.name }}</td>
+            <td>{{ item.user.username }}</td>
+            <td>{{ item.distance }} km</td>
+            <td>{{ item.type }}</td>
+            <td style="display: flex">
+              <button ion-button clear item-end (click)="displayRoute(item);">Vizualizare ruta</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="segmentModel === 'About'">
+
+    <ion-card-content>
+     <ion-grid>
+       <ion-row>
+         <ion-col size="3">
+           <b>Prenume</b>
+         </ion-col>
+         <ion-col>
+           {{userData.first_name}}
+         </ion-col>
+       </ion-row>
+       <ion-row>
+        <ion-col size="3">
+          <b>Nume</b>
+        </ion-col>
+        <ion-col>
+          {{userData.last_name}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <b>Descriere</b>
+        </ion-col>
+        <ion-col>
+          {{userData.description}}
+        </ion-col>
+      </ion-row>
+       <ion-row>
+         <ion-col size="3">
+           <b>Distanta</b>
+         </ion-col>
+         <ion-col>
+           {{userData.distance}} km
+         </ion-col>
+       </ion-row>
+     </ion-grid>
+
+     </ion-card-content>
+   </ion-card>
+
+
+  <ion-card *ngIf="segmentModel === 'Details'">
+    <ion-card-header>
+      <ion-card-title>{{data.name}}
+      <ion-button style="text-align:center" color="danger" fill="outline" (click)="followRoute()" *ngIf="!checkfollowRoute()">
+        Urmareste
+      </ion-button>
+      <ion-button style="text-align:center" color="danger" fill="outline"  (click)="followRoute()" *ngIf="checkfollowRoute()">
+        Nu mai urmari
+      </ion-button>
+    </ion-card-title>
+    </ion-card-header>
+   <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <b>Distanta</b>
+        </ion-col>
+        <ion-col>
+          {{data.distance}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <b>Tip</b>
+        </ion-col>
+        <ion-col>
+          {{data.type}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="segmentModel === 'Details'">
+    <ion-card-header>
+      <ion-card-title>Comentarii</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="comment-box">
+        <ion-card *ngFor="let comment of comments">
+          <ion-card-content>
+            <ion-button fill="clear" size="small" (click)="removeComment(comment)" *ngIf="removeCommentvisible(comment.user)"><ion-icon name="trash"></ion-icon></ion-button> <strong>{{comment.text}}</strong>
+                <p>
+                 {{comment.user.username}} - {{comment.time | date : 'H:mm d/MMM/YY'}}
+                </p>
+          </ion-card-content>
+
+        </ion-card>
+      </div>
+      <ion-footer padding>
+        <ion-textarea [(ngModel)]="comment.text" type="text" placeholder="Comment .... "></ion-textarea>
+        <button ion-button small float-right round (click)="sendComment()">Trimite</button>
+      </ion-footer>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
-
-
-<ng-template #loggedOut>
-  Please login.
-</ng-template>

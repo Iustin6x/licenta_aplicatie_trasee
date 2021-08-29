@@ -1,27 +1,27 @@
 <ion-header>
-  <ion-toolbar color="tertiary">
-    <ion-title>Edit Profile</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Editare profil | {{username}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
   <ion-item>
-    <ion-label>First Name</ion-label>
-    <ion-input [(ngModel)]="data.first_name" placeholder="Enter First Name"></ion-input>
+    <ion-label>Prenume</ion-label>
+    <ion-input [(ngModel)]="userData.first_name" placeholder="Enter First Name"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label>Last Name</ion-label>
-    <ion-input [(ngModel)]="data.last_name" placeholder="Enter Last Name"></ion-input>
+    <ion-label>Nume</ion-label>
+    <ion-input [(ngModel)]="userData.last_name" placeholder="Enter Last Name"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label>Description</ion-label>
-    <ion-input [(ngModel)]="data.description" placeholder="Enter Description"></ion-input>
+    <ion-label>Descriere</ion-label>
+    <ion-input [(ngModel)]="userData.description" placeholder="Enter Description"></ion-input>
   </ion-item>
-  <ion-button (click)="test12()" color="success" size="small">
-    Update
+  <ion-button (click)="update()" color="success" size="small">
+    Actualizare
   </ion-button>
   <ion-button [routerLink]="[ '/profile']" color="danger" size="small">
-    Cancel
+    Anuleaza
   </ion-button>
 </ion-content>

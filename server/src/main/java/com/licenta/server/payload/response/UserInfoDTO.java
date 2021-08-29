@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserInfoResponse {
+public class UserInfoDTO {
     private Long id;
 
     private String username;
@@ -25,8 +25,10 @@ public class UserInfoResponse {
 
     private Double longitude;
 
+    private Double distance;
 
-    public UserInfoResponse() {
+
+    public UserInfoDTO() {
     }
 
     public Double getLatitude() {
@@ -93,8 +95,15 @@ public class UserInfoResponse {
         this.speed = speed;
     }
 
+    public Double getDistance() {
+        return distance;
+    }
 
-    public UserInfoResponse(Long id, String username, String first_name, String last_name, String description, Float speed, Double latitude, Double longitude) {
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
+    public UserInfoDTO(Long id, String username, String first_name, String last_name, String description, Float speed, Double latitude, Double longitude, Double distance) {
         this.id = id;
         this.username = username;
         this.first_name = first_name;
@@ -103,5 +112,6 @@ public class UserInfoResponse {
         this.speed = speed;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
     }
 }

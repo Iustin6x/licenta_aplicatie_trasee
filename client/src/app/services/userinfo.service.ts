@@ -12,9 +12,9 @@ export class UserinfoService {
 
   constructor(private http: HttpClient) { }
 
-  get(id: any): Observable<any> {
+  get(username: any): Observable<any> {
     return this.http
-    .get<any>(API_URL + id)
+    .get<any>(API_URL + username)
     .pipe(
       retry(2),
       catchError(this.handleError)

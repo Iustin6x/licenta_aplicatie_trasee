@@ -48,6 +48,14 @@ public class UserInfo {
     private Double longitude;
 
 
+    @Column(name = "distance")
+    private Double distance;
+
+
+
+
+
+
     public UserInfo() {
     }
 
@@ -60,7 +68,7 @@ public class UserInfo {
         this.id = id;
     }
 
-    public UserInfo(Long id, String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude) {
+    public UserInfo(Long id, String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude, Double distance) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -69,9 +77,10 @@ public class UserInfo {
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
     }
 
-    public UserInfo(String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude) {
+    public UserInfo(String first_name, String last_name, String description, Float speed, User user, Double latitude, Double longitude, Double distance) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.description = description;
@@ -79,6 +88,19 @@ public class UserInfo {
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = distance;
+    }
+
+    public void setSpeed(Float speed) {
+        this.speed = speed;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     public String getFirst_name() {
@@ -116,11 +138,6 @@ public class UserInfo {
     public float getSpeed() {
         return speed;
     }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
 
     public Double  getLatitude() {
         return latitude;

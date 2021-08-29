@@ -9,5 +9,5 @@ export class Route {
   user: any;
   points: any;
   type: string;
-
+  followers: any[];
 }

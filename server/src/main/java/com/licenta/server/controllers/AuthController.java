@@ -124,7 +124,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
-		userinfoRepository.save(new UserInfo(user.getId(),user.getUsername(),"last name","",(float)6,user,(double)6,(double)6));
+		userinfoRepository.save(new UserInfo(user.getId(),user.getUsername(),"last name","",(float)6,user,(double)6,(double)6,(double)6));
 
 		userRepository.save(user);
 

@@ -19,16 +19,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule),
     canLoad: [AutoLoginGuard]
   },
-  {
-    path: 'user',
-    loadChildren: () => import('./pages/board-user/board-user.module').then( m => m.BoardUserPageModule)
-  },
+
   {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
   },
- 
+
+
 
 
 

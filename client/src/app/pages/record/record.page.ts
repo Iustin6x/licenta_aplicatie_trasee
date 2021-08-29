@@ -112,7 +112,8 @@ export class RecordPage implements OnInit {
         let mapOptions = {
           center: latLng,
           zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          streetViewControl: false,
         }
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -262,9 +263,5 @@ export class RecordPage implements OnInit {
     this.segmentModel = "Save";
   }
 
-  showHistoryRoute(route) {
-    this.redrawPath(route);
-  }
-  startStopPlaying(){}
 
 }

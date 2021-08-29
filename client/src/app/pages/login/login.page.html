@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>Autentificare</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -26,7 +26,7 @@
     </ion-item>
 
     <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
+      <ion-label position="floating">Parola</ion-label>
       <ion-input type="password"
                  class="form-control"
                  name="password"
@@ -40,33 +40,28 @@
               *ngIf="password.errors && f.submitted">
       <ion-item *ngIf="password.errors.required">
         <ion-label>
-          Password is required
+          Este necesara prola
         </ion-label>
       </ion-item>
       <ion-item *ngIf="password.errors.minlength">
         <ion-label>
-          Password must be at least 6 characters
+          Parola trebuie sa aiba minin 6 caractere
         </ion-label>
       </ion-item>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Sign In</ion-button>
-        <a [routerLink]="['/register']" class="small-text">Register?</a>
+        <ion-button type="submit" color="primary" expand="block">Autentificare</ion-button>
+        <a [routerLink]="['/register']" class="small-text">Inregistrare?</a>
       </ion-col>
     </ion-row>
     <ion-item class="alert alert-danger"
               role="alert"
               *ngIf="f.submitted && isLoginFailed">
       <ion-label>
-        Login failed: {{ errorMessage }}
+        Eroare: {{ errorMessage }}
       </ion-label>
     </ion-item>
   </form>
-  <ion-item class="alert alert-success" *ngIf="isLoggedIn">>
-    <ion-label>
-      Logged in as {{ roles }}
-    </ion-label>
-  </ion-item>
 </ion-content>

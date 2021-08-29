@@ -27,19 +27,6 @@ export class UserService {
 
   
 
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'users', { responseType: 'text' });
-  }
-
-  getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'users', { responseType: 'text' });
-  }
-
-
-  getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', { responseType: 'text' });
-  }
-
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoadingController} from '@ionic/angular';
 import {AuthService} from '../../services/auth.service';
 import {TokenStorageService} from '../../services/token-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -18,10 +19,11 @@ export class LoginPage implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
-  constructor(public fb: FormBuilder,
+  constructor(public activatedRoute: ActivatedRoute,
+             public router: Router,
+             public fb: FormBuilder,
               private readonly loadingCtrl: LoadingController,
               private authService: AuthService,
-              private router: Router,
               private tokenStorage: TokenStorageService,
               private loadingController: LoadingController) { }
 
@@ -46,10 +48,8 @@ export class LoginPage implements OnInit {
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.roles = this.tokenStorage.getUser().roles;
-          
 
-          this.redirectTabNav();
-          //this.reloadPage();
+          this.reloadPage();
         },
         async(err) => {
           await loading.dismiss();

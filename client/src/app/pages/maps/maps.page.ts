@@ -72,6 +72,8 @@ export class MapsPage implements OnInit {
       this.comments=[];
   }
 
+
+
   ionViewDidEnter() {
 
     this.getAllRoutes();
@@ -120,9 +122,7 @@ export class MapsPage implements OnInit {
 
     this.routeService.getList().subscribe(response => {
       this.routesData = response;
-      response.forEach(element => {
-        this.addMarker(element);
-      });
+      this.addmarkers(response);
     })
 
   }
@@ -131,18 +131,14 @@ export class MapsPage implements OnInit {
 
     this.routeService.getListPlanned().subscribe(response => {
       this.routesData = response;
-      response.forEach(element => {
-        this.addMarker(element);
-      });
+      this.addmarkers(response);
     })
   }
   getAllDoneRoutes() {
 
     this.routeService.getListDone().subscribe(response => {
       this.routesData = response;
-      response.forEach(element => {
-        this.addMarker(element);
-      });
+      this.addmarkers(response);
     })
   }
   getAllbyUsernameAndTypeRoutes(username:any,type:any) {
@@ -153,8 +149,15 @@ export class MapsPage implements OnInit {
     })
   }
 
+  getFollowedRoutes() {
+
+    this.routeService.getFollowedRoutes(this.currentUser.id).subscribe(response => {
+      this.routesData = response;
+      this.addmarkers(response);
+    })
+  }
+
   ngOnInit() {
-    this.storage.create();
     this.currentUser = this.token.getUser();
     this.loadMap();
   }
@@ -288,6 +291,7 @@ export class MapsPage implements OnInit {
     }
 
     displayRoute(route: any){
+      this.getComments(route.id);
       if(route.points){
         if(route.type=="planned"){
           this.displayDirections(route.points);
@@ -396,6 +400,27 @@ export class MapsPage implements OnInit {
   }
 
 
+  followRoute(){
+      if(this.checkfollowRoute()){
+        this.data.followers = this.data.followers.filter(item => item.id != this.currentUser.id)
+      }else{
+        this.data.followers.push(this.currentUser);
+      }
+      this.update();
+  }
+
+  checkfollowRoute(): any{
+    return (this.data.followers.find(user => user.id === this.currentUser.id)!=null);
+  }
+
+
+  update() {
+
+    this.routeService.update(this.data.id, this.data).subscribe(response => {
+    })
+  }
+
+
 
   segmentModel = "All";
   segmentChanged(event){
@@ -405,6 +430,9 @@ export class MapsPage implements OnInit {
       this.getAllbyUsernameAndTypeRoutes(this.currentUser.username,"planned");
     }else if(this.segmentModel=="All"){
       this.getAllRoutes();
+    }else if(this.segmentModel=="Follow"){
+      this.removeMarkers();
+      this.getFollowedRoutes();
     }
 
     if(this.segmentModel!="Details"){

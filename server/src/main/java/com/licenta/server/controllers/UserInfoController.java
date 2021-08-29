@@ -12,7 +12,7 @@ import com.licenta.server.payload.request.LoginRequest;
 import com.licenta.server.payload.request.SignupRequest;
 import com.licenta.server.payload.response.JwtResponse;
 import com.licenta.server.payload.response.MessageResponse;
-import com.licenta.server.payload.response.UserInfoResponse;
+import com.licenta.server.payload.response.UserInfoDTO;
 import com.licenta.server.repositories.RoleRepository;
 import com.licenta.server.repositories.UserInfoRepository;
 import com.licenta.server.repositories.UserRepository;
@@ -42,12 +42,12 @@ public class UserInfoController {
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserInfoResponse>> getUsers() {
+    public ResponseEntity<List<UserInfoDTO>> getUsers() {
         try {
-            List<UserInfoResponse> users = new ArrayList<>();
+            List<UserInfoDTO> users = new ArrayList<>();
 
             userinfoRepository.findAll().forEach(userData->{
-                users.add(new UserInfoResponse(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed(),userData.getLatitude(),userData.getLongitude()));
+                users.add(new UserInfoDTO(userData.getId(),userData.getUser().getUsername(),userData.getFirst_name(),userData.getLast_name(),userData.getDescription(),userData.getSpeed(),userData.getLatitude(),userData.getLongitude(),userData.getDistance()));
             });
 
             if (users.isEmpty()) {
@@ -62,24 +62,24 @@ public class UserInfoController {
 
         /*
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserInfoResponse> getUserInfoById(@PathVariable("id") long id) {
+    public ResponseEntity<UserInfoDTO> getUserInfoById(@PathVariable("id") long id) {
         //System.out.println(id);
         Optional<UserInfo> userData = userinfoRepository.findById(id);
 
         if (userData.isPresent()) {
-            return new ResponseEntity<>(new UserInfoResponse(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed()), HttpStatus.OK);
+            return new ResponseEntity<>(new UserInfoDTO(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     */
     @GetMapping("/users/{username}")
-    public ResponseEntity<UserInfoResponse> getUserInfoByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<UserInfoDTO> getUserInfoByUsername(@PathVariable("username") String username) {
         //System.out.println(id);
         Optional<UserInfo> userData = userinfoRepository.findByUserUsername(username);
 
         if (userData.isPresent()) {
-            return new ResponseEntity<>(new UserInfoResponse(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed(),userData.get().getLatitude(),userData.get().getLatitude()), HttpStatus.OK);
+            return new ResponseEntity<>(new UserInfoDTO(userData.get().getId(),userData.get().getUser().getUsername(),userData.get().getFirst_name(),userData.get().getLast_name(),userData.get().getDescription(),userData.get().getSpeed(),userData.get().getLatitude(),userData.get().getLongitude(),userData.get().getDistance()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -97,8 +97,9 @@ public class UserInfoController {
             _info.setDescription(info.getDescription());
             _info.setLast_name(info.getLast_name());
             _info.setSpeed(info.getSpeed());
-            _info.setLongitude(info.getLatitude());
-            _info.setLatitude(info.getLongitude());
+            _info.setLatitude(info.getLatitude());
+            _info.setLongitude(info.getLongitude());
+            _info.setDistance(info.getDistance());
             return new ResponseEntity<>(userinfoRepository.save(_info), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

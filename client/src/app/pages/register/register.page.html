@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>register</ion-title>
+    <ion-title>Inregistrare</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -24,17 +24,17 @@
     <ion-item class="alert-danger" *ngIf="username.errors && f.submitted">
     <ion-item *ngIf="username.errors.required">
       <ion-label>
-        Username is required
+        Este necesar username-ul
       </ion-label>
     </ion-item>
       <ion-item *ngIf="username.errors.minlength">
         <ion-label>
-          Username must be at least 3 characters
+          Usernamenul trebuie sa contina minim 3 caractere
         </ion-label>
       </ion-item>
       <ion-item *ngIf="username.errors.maxlength">
         <ion-label>
-          Username must be at most 20 characters
+          Usernamenul poate contine maxim 20 caractere
         </ion-label>
       </ion-item>
     </ion-item>
@@ -61,7 +61,7 @@
       </ion-item>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
+      <ion-label position="floating">Parola</ion-label>
       <ion-input type="password"
                   class="form-control"
                   name="password"
@@ -84,8 +84,8 @@
     </ion-item>
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
-        <a [routerLink]="['/login']" class="small-text">Have a account Sing in?</a>
+        <ion-button type="submit" color="primary" expand="block">Inregistrare</ion-button>
+        <a [routerLink]="['/login']" class="small-text">Autentificare?</a>
       </ion-col>
     </ion-row>
     <ion-item class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
@@ -96,7 +96,7 @@
   </form>
   <ion-item class="alert alert-success" *ngIf="isSuccessful">
     <ion-label>
-      Your registration is successful!
+      Te-ai inregistrat cu succes.
     </ion-label>
   </ion-item>
 </ion-content>

@@ -54,7 +54,6 @@ public class Route {
     private String type;
 
     @ManyToMany()
-    @JsonIgnore
     @JoinTable(	name = "user_follow_route",
             joinColumns = @JoinColumn(name = "route_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -88,7 +87,27 @@ public class Route {
         this.type = type;
     }
 
+    public Route(Long id, String name, String description, Float distance, Float speed, Date start_date, Date finish_date, User user, List<Point> points, String type, List<User> followers) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.distance = distance;
+        this.speed = speed;
+        this.start_date = start_date;
+        this.finish_date = finish_date;
+        this.user = user;
+        this.points = points;
+        this.type = type;
+        this.followers = followers;
+    }
 
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
 
     public String getType() {
         return type;
