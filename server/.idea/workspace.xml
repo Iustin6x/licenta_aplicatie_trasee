@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bca5cbe8-29bb-4e44-a08c-145d0cc14689" name="Default Changelist" comment="" />
+    <list default="true" id="bca5cbe8-29bb-4e44-a08c-145d0cc14689" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/ionic.config.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/ionic.config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/licenta/server/controllers/RouteController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +22,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -96,6 +104,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.licenta.server.ServerApplication" />
@@ -133,7 +152,7 @@
       <workItem from="1626706169710" duration="11348000" />
       <workItem from="1626988856145" duration="10106000" />
       <workItem from="1627559043597" duration="570000" />
-      <workItem from="1630229050708" duration="2285000" />
+      <workItem from="1630229050708" duration="5208000" />
     </task>
     <task id="LOCAL-00001" summary="Models added">
       <created>1622045593888</created>

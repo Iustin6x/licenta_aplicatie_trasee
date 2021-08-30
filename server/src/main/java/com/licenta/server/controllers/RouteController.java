@@ -66,6 +66,22 @@ public class RouteController {
         }
     }
 
+    @GetMapping("/routes/recommended/{username}")
+    public ResponseEntity<List<Route>> getRoutesForUsername(@PathVariable("username") String username) {
+        try {
+            List<Route> routes = new ArrayList<Route>();
+                routeRepository.findAllByUserUsername(username).forEach(routes::add);
+
+            if (routes.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(routes, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/routes/followers/{id}")
     public ResponseEntity<List<Route>> getRoutesByFollower(@PathVariable("id") Long id) {
         try {
@@ -174,6 +190,8 @@ public class RouteController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
 
 
